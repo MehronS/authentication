@@ -10,15 +10,6 @@ const path = require("path");
 
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-// User.prototype.generateToken = async function () {
-//   try {
-//     const token = await jwt.sign({ id: this.id }, process.env.JWT);
-//     return { token };
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
 app.post("/api/auth", async (req, res, next) => {
   try {
     const user = await User.authenticate(req.body);

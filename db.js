@@ -20,7 +20,9 @@ const User = conn.define("user", {
 
 User.byToken = async (token) => {
   try {
-    const user = await User.findByPk(token);
+    const decode = await jwt.verify(token, process.env.JWT);
+
+    const user = await User.findByPk(decode.id);
     if (user) {
       return user;
     }
@@ -52,6 +54,7 @@ User.authenticate = async ({ username, password }) => {
 User.prototype.generateToken = async function () {
   try {
     const token = await jwt.sign({ id: this.id }, process.env.JWT);
+
     return { token };
   } catch (err) {
     console.error(err);
